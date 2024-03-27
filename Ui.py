@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
-import pickle
+# import pickle
+from sklearn.linear_model import LinearRegression
 import numpy as np
 
 # Function to predict sales of next month
@@ -18,26 +19,30 @@ def predict_sales():
     if len(sales_data) != 12:
         messagebox.showerror("Error", "Please enter sales data for all 12 months")
         return
+    X = np.arange(1, 13).reshape(-1, 1)
+    y = np.array(sales_data).reshape(-1, 1)
 
-    # Reshaping sales data for prediction
-    X = np.array(sales_data).reshape(1, -1)
+    # Creating and fitting linear regression model
+    model = LinearRegression()
+    model.fit(X, y)
 
-    # Predicting sales for next month
-    next_month_sales = model.predict(X)
+    # Predicting sales for next month (13th month)
+    next_month_sales = model.predict([[13]])
 
     # Displaying predicted sales
-    output_label.config(text="Predicted sales of next month: {:.2f}".format(next_month_sales[0]))
+    output_label.config(text="Predicted sales of next month: {:.2f}".format(next_month_sales[0][0]))
+
 
 # Load the trained model
-with open('gmodel.pkl', 'rb') as f:
-    model = pickle.load(f)
+# with open('gmodel.pkl', 'rb') as f:
+#     model = pickle.load(f)
 
 # Create Tkinter window
 root = tk.Tk()
 root.title("Sales Prediction")
 
 # Configure window size and background color
-root.geometry("400x300")
+root.geometry("400x300")    
 root.configure(bg="#f0f0f0")
 
 # Create labels and entry fields for 12 months
