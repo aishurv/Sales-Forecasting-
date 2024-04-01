@@ -42,7 +42,7 @@ root = tk.Tk()
 root.title("Sales Prediction")
 
 # Configure window size and background color
-root.geometry("400x300")    
+root.geometry("300x500")    
 root.configure(bg="#f0f0f0")
 
 # Create labels and entry fields for 12 months
